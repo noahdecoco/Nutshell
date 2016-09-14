@@ -11,5 +11,6 @@ The bare necessities to start a project or experiment.
 ## Initialisation ##
 * cd into the folder where you want to start the project
 * run git clone https://github.com/noahdecoco/Nutshell .
+* run npm install --save-dev
 * run grunt
 * run grunt serve
