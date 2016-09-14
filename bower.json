@@ -1,0 +1,17 @@
+{
+  "name": "noix",
+  "description": "A kickstarter template for creating Single Page Applications.",
+  "main": "index.js",
+  "authors": [
+    "Noahdecoco"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
