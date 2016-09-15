@@ -1,7 +1,7 @@
 {
-  "name": "noix",
+  "name": "(nutshell)",
   "version": "1.0.0",
-  "description": "A kickstarter template for Single Page Applications.",
+  "description": "A simple seed that grows into modern web-projects",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

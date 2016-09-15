@@ -39,8 +39,11 @@ module.exports = function(grunt){
 			},
 			build: {
 				files: {
+					'dist/js/libs/libs.min.js':[
+						'src/js/libs/*.js'
+					],
 					'dist/js/main.min.js':[
-						'src/js/main.js'
+						'src/js/*.js'
 					]
 				}
 			}
@@ -48,8 +51,10 @@ module.exports = function(grunt){
 
 		less: {
 			build: {
+				compress: true,
 				files: {
-					'dist/css/styles.css':'src/**/*.less'
+					'dist/css/libs/libs.css':'src/css/libs/*.less',
+					'dist/css/styles.css':'src/css/*.less'
 				}
 			}
 		},
@@ -60,6 +65,7 @@ module.exports = function(grunt){
 			},
 			build: {
 				files: {
+					'dist/css/libs/libs.min.css':'dist/css/libs/libs.css',
 					'dist/css/styles.min.css':'dist/css/styles.css'
 				}
 			}
@@ -92,12 +98,6 @@ module.exports = function(grunt){
 					dest: 'dist/img/'
 				}
 				]
-			}
-		},
-
-		wiredep: {
-			build: {
-				src: ['src/**/*.html']
 			}
 		},
 
