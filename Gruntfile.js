@@ -2,19 +2,10 @@ module.exports = function(grunt){
 
 	// VARIABLES
 	var _banner = '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n';
+	var _jsFiles = [];
 
 	// MODULES
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-htmlmin');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-wiredep');
-	grunt.loadNpmTasks('grunt-bower-concat');
-	grunt.loadNpmTasks('grunt-browser-sync');
+	require('load-grunt-tasks')(grunt);
 
 	// CONFIG
 	grunt.initConfig({
@@ -28,7 +19,8 @@ module.exports = function(grunt){
 
 		jshint: {
 			options: {
-				reporter: require('jshint-stylish')
+				reporter: require('jshint-stylish'),
+				esversion: 6
 			},
 			build: ['Gruntfile.js', 'src/**/*.js']
 		},
@@ -45,6 +37,38 @@ module.exports = function(grunt){
 					'dist/js/main.min.js':[
 						'src/js/*.js'
 					]
+				}
+			}
+		},
+
+		concat: {
+			options: {
+				sourceMap: true,
+				sourceMapStyle: 'link'
+			},
+			libs: {
+				src: 'src/js/libs/**/*.js',
+				dest: 'dist/js/temp/libs.js'
+			},
+			main: {
+				src: [
+				'src/js/modules/**/*.js',
+				'src/js/services/**/*.js',
+				'src/js/**/*.js',
+				'src/js/main.js',
+				'!src/js/libs/**/*.js'],
+				dest: 'dist/js/temp/main.js'
+			}
+		},
+
+		babel: {
+			options: {
+				sourceMap: true
+			},
+			dist: {
+					files: {
+					"dist/js/libs.min.js": "dist/js/temp/libs.js",
+					"dist/js/main.min.js": "dist/js/temp/main.js"
 				}
 			}
 		},
@@ -101,15 +125,6 @@ module.exports = function(grunt){
 			}
 		},
 
-		bower_concat: {
-			build: {
-				dest: {
-					'js': 'dist/js/bower/bower.js',
-					'css': 'dist/css/bower/bower.css'
-				}
-			}
-		},
-
 		browserSync: {
 			dev: {
 				bsFiles: {
@@ -133,7 +148,7 @@ module.exports = function(grunt){
 			},
 			scripts:{
 				files: ['src/**/*.js'],
-				tasks: ['jshint', 'uglify']
+				tasks: ['concat', 'babel']
 			},
 			html: {
 				files:['src/**/*.html'],
@@ -146,13 +161,16 @@ module.exports = function(grunt){
 	grunt.registerTask('default',
 		[
 		'clean',
-		'jshint',
-		'bower_concat',
-		'uglify',
+		// Javascript
+		'concat',
+		'babel',
+		// CSS
 		'less',
 		'cssmin',
-		'htmlmin',
-		'imagemin'
+		// Images
+		'imagemin',
+		// HTML
+		'htmlmin'
 		]);
 
 	grunt.registerTask('serve',
