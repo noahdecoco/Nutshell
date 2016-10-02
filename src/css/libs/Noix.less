@@ -1,12 +1,12 @@
-/**
-*** SIMPLE GRID
-*** (C) ZACH COLE 2016
-**/
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,700';
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+// Variables
+@pri-color : #473134;
+@sec-color : #97c652;
+@bg-color: #f0eef1;
+@base-font-size: 0.8rem;
 
-/* UNIVERSAL */
-
+// Overall
 html,
 body {
   height: 100%;
@@ -16,46 +16,40 @@ body {
   left: 0;
   top: 0;
   font-size: 100%;
+  background-color: @bg-color;
+  color: @pri-color;
+  line-height: normal; 
+  font-family: 'Roboto', Helvetica, sans-serif;
 }
 
-/* ROOT FONT STYLES */
-
-* {
-  font-family: 'Lato', Helvetica, sans-serif;
-  color: #333447;
-  line-height: 1.5;
-}
-
-/* TYPOGRAPHY */
-
+// Typography
 h1 {
-  font-size: 2.5rem;
+  font-size: @base-font-size*2.5;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: @base-font-size*1.6;
 }
 
 h3 {
-  font-size: 1.375rem;
+  font-size: @base-font-size*1.4;
 }
 
 h4 {
-  font-size: 1.125rem;
+  font-size: @base-font-size*1;
 }
 
 h5 {
-  font-size: 1rem;
+  font-size: @base-font-size*0.8;
 }
 
 h6 {
-  font-size: 0.875rem;
+  font-size: @base-font-size*0.6;
 }
 
 p {
-  font-size: 1.125rem;
+  font-size: @base-font-size;
   font-weight: 200;
-  line-height: 1.8;
 }
 
 .font-light {
@@ -70,27 +64,35 @@ p {
   font-weight: 700;
 }
 
-/* POSITIONING */
+.big {
+  font-size: 120%;
+}
 
-.left {
+.small {
+  font-size: 80%;
+}
+
+// Align
+
+.text-left {
   text-align: left;
 }
 
-.right {
+.text-right {
   text-align: right;
 }
 
-.center {
+.text-center {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
 
-.justify {
+.text-justify {
   text-align: justify;
 }
 
-/* ==== GRID SYSTEM ==== */
+// Grid
 
 .container {
   width: 90%;
