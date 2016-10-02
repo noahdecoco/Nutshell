@@ -124,7 +124,7 @@
 		//////////////////////////////////////////////////////////////////
 		// SERVICES //////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////
-		let _addService = function(serId, creator){
+		let _registerService = function(serId, creator){
 			
 			if(typeof serId != 'string'){
 				_debug(`Error registering service '${serId}', serId must be a string.`,'error');
@@ -145,29 +145,94 @@
 		};
 
 		let _getService = function(serId){
+
+			if(typeof serId != 'string'){
+				_debug(`Error getting service '${serId}', serId must be a string.`,'error');
+				return;
+			}
+			
+			if(typeof _services[serId] == 'undefined'){
+				_debug(`Error getting service '${serId}', it hasn't been registered.`,'error');
+				return;
+			}
+
 			return _services[serId];
 		}
 
-		let _destroyService = function(serId){
+		let _unregisterService = function(serId){
+
+			if(typeof serId != 'string'){
+				_debug(`Error destroying service '${serId}', serId must be a string.`,'error');
+				return;
+			}
+			
+			if(typeof _services[serId] == 'undefined'){
+				_debug(`Couldn't destroy service '${serId}' since it didn't exist.`,'warn');
+				return;
+			}
+
 			delete _services[serId];
 		};
 
 		//////////////////////////////////////////////////////////////////
 		// MODULES ///////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////
-		let _addModule = function(modId, creator){
+		let _registerModule = function(modId, creator){
+
+			if(typeof modId != 'string'){
+				_debug(`Error registering module '${modId}', modId must be a string.`,'error');
+				return;
+			}
+
+			if(typeof creator != 'function'){
+				_debug(`Error registering module '${modId}', creator must be a function.`,'error');
+				return;
+			}
+
+			if(typeof _modules[modId] != 'undefined'){
+				_debug(`Error registering module '${modId}', modId already registered.`,'error');
+				return;
+			}
+
 			_modules[modId] = {
 				create: creator,
 				instance: null
 			}
 		};
 
-		let _initModule = function(modId, creator){
+		let _initModule = function(modId){
+
+			if(typeof modId != 'string'){
+				_debug(`Error initialising module '${modId}', modId must be a string.`,'error');
+				return;
+			}
+
+			if(typeof _modules[modId] == 'undefined'){
+				_debug(`Error initialising module '${modId}', modId isn't registered.`,'error');
+				return;
+			}
+
+			if(_modules[modId].instance != null){
+				_debug(`Error initialising module '${modId}', modId already initialized.`,'error');
+				return;
+			}
+
 			_modules[modId].instance = _modules[modId].create(new _context());
 			_modules[modId].instance.init();
 		};
 
-		let _destroyModule = function(modId, creator){
+		let _unregisterModule = function(modId){
+
+			if(typeof modId != 'string'){
+				_debug(`Error unregistering module '${modId}', modId must be a string.`,'error');
+				return;
+			}
+
+			if(typeof _modules[modId] == 'undefined'){
+				_debug(`Error unregistering module '${modId}', modId hasn't been registered.`,'warn');
+				return;
+			}
+
 			_modules[modId].instance.destroy();
 			_modules[modId].instance = null;
 		};
@@ -179,18 +244,18 @@
 		let _context = function(){
 			return {
 				// Events
-				registerEvent   : _registerEvent,
-				triggerEvent    : _triggerEvent,
-				deleteEvent     : _deleteEvent,
-				unregisterEvent : _unregisterEvent,
+				registerEvent     : _registerEvent,
+				triggerEvent      : _triggerEvent,
+				deleteEvent       : _deleteEvent,
+				unregisterEvent   : _unregisterEvent,
 				// Services
-				addService      : _addService,
-				getService      : _getService,
-				destroyService  : _destroyService,
+				registerService   : _registerService,
+				getService        : _getService,
+				unregisterService : _unregisterService,
 				// Modules
-				addModule       : _addModule,
-				initModule      : _initModule,
-				destroyModule   : _destroyModule
+				registerModule    : _registerModule,
+				initModule        : _initModule,
+				unregisterModule  : _unregisterModule
 			}
 		}
 
@@ -200,20 +265,20 @@
 		// These methods are available outside the app
 		let _api = (function(){
 			return {
-				debug           : _debug,
+				debug             : _debug,
 				// Events
-				registerEvent   : _registerEvent,
-				triggerEvent    : _triggerEvent,
-				deleteEvent     : _deleteEvent,
-				unregisterEvent : _unregisterEvent,
+				registerEvent     : _registerEvent,
+				triggerEvent      : _triggerEvent,
+				deleteEvent       : _deleteEvent,
+				unregisterEvent   : _unregisterEvent,
 				// Services
-				addService      : _addService,
-				getService      : _getService,
-				destroyService  : _destroyService,
+				registerService   : _registerService,
+				getService        : _getService,
+				unregisterService : _unregisterService,
 				// Modules
-				addModule       : _addModule,
-				initModule      : _initModule,
-				destroyModule   : _destroyModule
+				registerModule    : _registerModule,
+				initModule        : _initModule,
+				unregisterModule  : _unregisterModule
 			}
 		}())
 
