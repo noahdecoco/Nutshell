@@ -10,18 +10,57 @@
 </head>
 <body>
 
-	<a href="https://github.com/noahdecoco/Nutshell"><h1>(nutshell)</h1></a>
-	<h3>A simple seed that grows into modern web-projects</h3>
-	<div class="feature">Install Node Modules with <a href="https://www.npmjs.com/">NPM</a></div>
-	<div class="feature">Give it some style with <a href="http://lesscss.org/">Less</a></div>
-	<div class="feature">Compiles ES6 to ES5 with <a href="https://babeljs.io/">Babel</a></div>
-	<div class="feature">Run tasks with <a href="http://gruntjs.com/">Grunt</a></div>
-	<div class="feature">Auto-compile libraries in the libs folders</div>
-	<br>
-	<h3>Included, but Optional</h3>
-	<div class="feature">Use Noix.js for clean architecture</div>
-	<div class="feature">Use Noix.less for responsive layout</div>
-	<p class='small'>Just delete them from the libs folder if you don't want them</p>
+	<div class="container">
+		<div class="row">
+			<header>
+				<a href="https://github.com/noahdecoco/Nutshell"><h1 class='title'>(nutshell)</h1></a>
+				<h2 class='sub-title'>The seed that grows into modern&nbsp;web&#8209;projects</h2>
+			</header>
+			<hr>
+			<h3>Simply the minimals</h3>
+			<div class="feature">Install Node Modules with <a href="https://www.npmjs.com/">NPM</a></div>
+			<div class="feature">Give it some style with <a href="http://lesscss.org/">Less</a></div>
+			<div class="feature">Run tasks with <a href="http://gruntjs.com/">Grunt</a></div>
+			<br>
+			<h3>Included, but Optional</h3>
+			<div class="feature">nutshell.js for clean architecture</div>
+			<div class="feature">nutshell.less for responsive layout</div>
+			<p class='small'>Just delete them if you don't want them</p>
+		</div>
+	</div>
+
+	<div class="container demo">
+		<div class="row">
+			<h3>Demo: Talking Nuts</h3>
+			<p>Click the nuts</p>
+		</div>
+		<div class="row">
+
+			<div class='col-6'>
+				<div id='left-nut'>
+					<div class="speech-bubble">...</div>
+					<br>
+					<img id='btnLeftNut' class="nut left" src="img/nut.png">
+				</div>
+			</div>
+
+			<div class='col-6'>
+				<div id='right-nut'>
+					<div class="speech-bubble">...</div>
+					<br>
+					<img id='btnRightNut' class="nut right" src="img/nut.png">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<footer>
+				<a href="https://github.com/noahdecoco/Nutshell"><p>Get it on Github</p></a>
+			</footer>
+		</div>
+	</div>
 
 	<script src="js/libs.min.js" charset="utf-8"></script>
 	<script src="js/main.min.js" charset="utf-8"></script>

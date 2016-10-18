@@ -1,46 +1,105 @@
-var app = new Noix('app', {debugMode:true});
+var nuts = new Nutshell('nuts-app', {debugMode:true});
 
-// Events
-let foo = function(msg, date){
-	app.debug([msg, date], 'log');
-};
+///////////////
+// A Service //
+///////////////
+nuts.registerService('nut-greetings', function(){
 
-app.registerEvent('foo', foo);
-app.triggerEvent('foo', ['Event "foo" triggered on', new Date()]);
-app.unregisterEvent('foo',foo);
-app.deleteEvent('foo');
+	// Private
+	var _nutGreetings = [
+		'Hello!', 'Oye!', 'Bon jour!', 'Whazzup!', 'Hi!', 'Yo!',
+		'Jambo!', 'Ciao!', 'Ola!', 'Ni hao!', 'Sup!', 'Halo!'
+	];
 
-// Services
-app.registerService('bar', function(context){
-	let _data = 'This could be any useful data!';
-	let _getData = function(){
-		return _data;
+	// Public
+	var _getRandomGreeting = function(){
+		return _nutGreetings[Math.floor(Math.random()*_nutGreetings.length)];
 	}
-	let _setData = function(data){
-		_data = data;
-	}
+
+	var _sayHello = function(sb){
+		sb.style.opacity = 1;
+		sb.innerHTML = _getRandomGreeting();
+		setTimeout(function(){
+			sb.style.opacity = 0;
+		}, 700);
+	};
+
 	return {
-		getData : _getData,
-		setData : _setData
+		sayHello          : _sayHello
 	}
 });
 
-console.log(app.getService('bar').getData());
-app.getService('bar').setData('Or something better ;)');
-console.log(app.getService('bar').getData());
-app.unregisterService('bar');
+//////////////////
+// Some modules //
+//////////////////
+nuts.registerModule('left-nut', function(context){
 
-// Modules
-app.registerModule('zee', function(context){
+	var _nut, _nutGreetingService, _speechBubble;
+
+	var _greet = function(){
+		_nutGreetingService.sayHello(_speechBubble);
+		context.triggerEvent('left-nut-said-something');
+	}
+
+	var _respond = function(){
+		setTimeout(function(){
+			_nutGreetingService.sayHello(_speechBubble);
+		},700);
+	}
+
+	var _init = function(){
+		_nutGreetingService = nuts.getService('nut-greetings');
+		_speechBubble = context.querySelector('.speech-bubble');
+		_nut = context.querySelector('#btnLeftNut');
+		_nut.addEventListener('click', _greet);
+		context.registerEvent('right-nut-said-something', _respond);
+	}
+
+	var _destroy = function(){
+		_nut = null;
+		_nutGreetingService = null;
+		_speechBubble = null;
+	}
+
 	return {
-		init: function(){
-			console.log('inited');
-		},
-		destroy: function(){
-			console.log('destroyed');
-		}
+		init: _init,
+		destroy: _destroy
 	}
 });
 
-app.initModule('zee');
-app.unregisterModule('zee');
+nuts.registerModule('right-nut', function(context){
+
+	var _nut, _nutGreetingService, _speechBubble;
+
+	var _greet = function(){
+		_nutGreetingService.sayHello(_speechBubble);
+		context.triggerEvent('right-nut-said-something');
+	}
+
+	var _respond = function(){
+		setTimeout(function(){
+			_nutGreetingService.sayHello(_speechBubble);
+		},700);
+	}
+
+	var _init = function(){
+		_nutGreetingService = nuts.getService('nut-greetings');
+		_speechBubble = context.querySelector('.speech-bubble');
+		_nut = context.querySelector('#btnRightNut');
+		_nut.addEventListener('click', _greet);
+		context.registerEvent('left-nut-said-something', _respond);
+	}
+
+	var _destroy = function(){
+		_nut = null;
+		_nutGreetingService = null;
+		_speechBubble = null;
+	}
+
+	return {
+		init: _init,
+		destroy: _destroy
+	}
+});
+
+nuts.start(); // initialises all modules

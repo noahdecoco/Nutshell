@@ -25,22 +25,6 @@ module.exports = function(grunt){
 			build: ['Gruntfile.js', 'src/**/*.js']
 		},
 
-		uglify: {
-			options: {
-				banner: _banner
-			},
-			build: {
-				files: {
-					'dist/js/libs/libs.min.js':[
-						'src/js/libs/*.js'
-					],
-					'dist/js/main.min.js':[
-						'src/js/*.js'
-					]
-				}
-			}
-		},
-
 		concat: {
 			options: {
 				sourceMap: true,
@@ -52,12 +36,29 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: [
-				'src/js/modules/**/*.js',
+				'src/js/events/**/*.js',
 				'src/js/services/**/*.js',
+				'src/js/modules/**/*.js',
 				'src/js/**/*.js',
 				'src/js/main.js',
 				'!src/js/libs/**/*.js'],
 				dest: 'dist/js/temp/main.js'
+			}
+		},
+		
+		uglify: {
+			options: {
+				banner: _banner
+			},
+			build: {
+				files: {
+					'dist/js/libs.min.js':[
+						'dist/js/temp/libs.js'
+					],
+					'dist/js/main.min.js':[
+						'dist/js/temp/main.js'
+					]
+				}
 			}
 		},
 
@@ -163,7 +164,8 @@ module.exports = function(grunt){
 		'clean',
 		// Javascript
 		'concat',
-		'babel',
+		'uglify',
+		// 'babel',
 		// CSS
 		'less',
 		'cssmin',
